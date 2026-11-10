@@ -1,0 +1,8 @@
+dn: cn=ROLE,ou=groups,dc=latch,dc=lab
+changetype: modify
+delete: member
+member: uid={{.Username}},ou=users,dc=latch,dc=lab
+-
+
+dn: uid={{.Username}},ou=users,dc=latch,dc=lab
+changetype: delete

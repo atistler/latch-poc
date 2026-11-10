@@ -1,0 +1,93 @@
+name: latch-poc
+services:
+  openstack:
+    build: ./containers/openstack
+    init: true
+    cap_add: [NET_ADMIN]
+    devices: [/dev/net/tun:/dev/net/tun]
+    environment:
+      LAB_MEMORY: ${LAB_MEMORY:-6144}
+      LAB_CPUS: ${LAB_CPUS:-4}
+      LAB_DISK: ${LAB_DISK:-64G}
+    ports:
+      - "127.0.0.1:${LAB_SSH_PORT:-2222}:2222"
+    networks:
+      management: {}
+      provider:
+        ipv4_address: 100.64.10.2
+    volumes:
+      - ./.state:/state
+    stop_grace_period: 90s
+    healthcheck:
+      test: [CMD, nc, -z, 127.0.0.1, '2222']
+      interval: 15s
+      timeout: 5s
+      retries: 40
+      start_period: 120s
+  warpgate:
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.warpgate
+    init: true
+    cap_add: [NET_ADMIN]
+    sysctls:
+      net.ipv4.ip_forward: '0'
+    depends_on:
+      openbao:
+        condition: service_healthy
+    networks:
+      control:
+        ipv4_address: 10.1.1.2
+      management: {}
+      provider:
+        ipv4_address: 100.64.10.10
+    ports:
+      - "127.0.0.1:${LAB_API_PORT:-9200}:8888"
+      - "127.0.0.1:${LAB_WORKER_PORT:-9202}:2222"
+    volumes:
+      - ./.state/warpgate:/config
+      - warpgate:/data
+    healthcheck:
+      test: [CMD, curl, --insecure, --fail, --silent, 'https://127.0.0.1:8888/@warpgate/admin']
+      interval: 5s
+      timeout: 3s
+      retries: 30
+  openbao:
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.openbao
+    init: true
+    cap_add: [IPC_LOCK]
+    networks: [management]
+    ports:
+      - "127.0.0.1:${LAB_BAO_PORT:-8200}:8200"
+    volumes:
+      - openbao:/opt/latch/bao
+    healthcheck:
+      test: [CMD, curl, -fsS, 'http://127.0.0.1:8200/v1/sys/health']
+      interval: 5s
+      timeout: 3s
+      retries: 30
+networks:
+  management:
+    ipam:
+      config:
+        - subnet: 10.1.3.0/24
+          gateway: 10.1.3.254
+  control:
+    ipam:
+      config:
+        - subnet: 10.1.1.0/24
+          gateway: 10.1.1.254
+  provider:
+    internal: true
+    ipam:
+      config:
+        - subnet: 100.64.10.0/24
+          ip_range: 100.64.10.0/27
+          gateway: 100.64.10.254
+          aux_addresses:
+            openstack-gateway: 100.64.10.1
+volumes:
+  warpgate: {}
+  openbao: {}

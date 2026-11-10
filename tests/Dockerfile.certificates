@@ -1,0 +1,11 @@
+FROM ghcr.io/openbao/openbao:2.7.2 AS bao
+FROM ubuntu:24.04
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    openssh-server openssh-client python3 jq curl ca-certificates && rm -rf /var/lib/apt/lists/*
+COPY --from=bao /usr/bin/bao /usr/local/bin/bao
+WORKDIR /home/stack/latch
+COPY guest ./guest
+COPY latch_common ./latch_common
+COPY scripts ./scripts
+COPY tests ./tests
+CMD ["bash", "tests/certificates-integration.sh"]

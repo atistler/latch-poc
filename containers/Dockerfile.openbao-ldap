@@ -1,0 +1,20 @@
+FROM ghcr.io/openbao/openbao:2.7.2 AS bao
+FROM ubuntu:24.04
+ARG TARGETARCH
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates curl jq python3 ldap-utils \
+    && rm -rf /var/lib/apt/lists/*
+# The LDAP engine was separated from OpenBao; pin both release and archive digest.
+RUN set -eu; case "$TARGETARCH" in \
+    arm64) asset=arm64_v8; digest=2858405d3a1d1184f5a2327c11cfa9f66e9770e997a05f61e8fd73be882ff458 ;; \
+    amd64) asset=amd64_v1; digest=a8da1f8f1323426fcb991d04022941ce3cd20ab65e7bbcf5b76921095c2c54a8 ;; \
+    *) echo 'Unsupported LDAP plugin architecture' >&2; exit 1 ;; esac; \
+    curl -fsSL "https://github.com/openbao/openbao-plugins/releases/download/secrets-ldap-v0.1.0/openbao-plugin-secrets-ldap_linux_${asset}.tar.gz" -o /tmp/plugin.tar.gz; \
+    echo "$digest  /tmp/plugin.tar.gz" | sha256sum -c -; \
+    mkdir -p /opt/latch/plugins; tar -xzf /tmp/plugin.tar.gz -C /opt/latch/plugins; \
+    chmod 755 /opt/latch/plugins/openbao-plugin-secrets-ldap_linux_${asset}; \
+    rm /tmp/plugin.tar.gz
+COPY --from=bao /usr/bin/bao /usr/local/bin/bao
+COPY guest/bao-unseal.sh guest/ldap-configure.py guest/ldap-validate.py /usr/local/lib/latch/
+COPY config/ldap /usr/local/share/latch/ldap
+COPY containers/openbao-ldap.sh /usr/local/bin/start-openbao-ldap
+ENTRYPOINT ["/bin/bash", "/usr/local/bin/start-openbao-ldap"]

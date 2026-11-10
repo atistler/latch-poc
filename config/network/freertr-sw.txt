@@ -1,0 +1,30 @@
+hostname latch-router
+logging milliseconds
+vrf definition management
+ exit
+proxy-profile management-host
+ protocol hostos
+ exit
+aaa tacacs central
+ server @TACACS_ADDRESS@
+ secret @TACACS_SECRET@
+ proxy management-host
+ privilege 15
+ exit
+crypto rsakey ssh external /var/lib/freertr/hostkey.pem
+interface loopback99
+ no description
+ exit
+server telnet ssh
+ vrf management
+ port 22
+ security protocol ssh
+ security rsakey ssh
+ security authentication central
+ login authentication central
+ exec authorization central
+ exec timeout 300000
+ exec colorize normal
+ no exec banner
+ no exec title
+ exit

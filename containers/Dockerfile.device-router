@@ -1,0 +1,6 @@
+FROM ubuntu:24.04
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      iproute2 iptables \
+    && rm -rf /var/lib/apt/lists/*
+COPY containers/device-router.sh /usr/local/bin/device-router
+ENTRYPOINT ["/bin/sh", "/usr/local/bin/device-router"]

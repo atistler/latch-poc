@@ -1,0 +1,22 @@
+FROM ubuntu:24.04 AS build
+ARG TACACS_COMMIT=cdf4ab87040b2a5ee449584c6d6bfda899a996ae
+ARG TACACS_SHA256=e4b7c7c15b48213e8d3049e7e72b845c6c07563099f3eefa4c19fde9ef52ac59
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      build-essential perl curl ca-certificates libpcre2-dev \
+    && rm -rf /var/lib/apt/lists/*
+RUN curl -fLsS "https://codeload.github.com/MarcJHuber/event-driven-servers/tar.gz/${TACACS_COMMIT}" -o /tmp/source.tar.gz \
+    && echo "${TACACS_SHA256}  /tmp/source.tar.gz" | sha256sum -c - \
+    && mkdir /src && tar -xzf /tmp/source.tar.gz -C /src --strip-components=1 \
+    && cd /src && ./configure --minimum tac_plus-ng && make -j2 && make install
+
+FROM ubuntu:24.04
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      python3 python3-ldap libpcre2-8-0 ca-certificates iproute2 \
+    && rm -rf /var/lib/apt/lists/*
+COPY --from=build /usr/local/ /usr/local/
+COPY --from=build /src/LICENSE /usr/local/share/doc/tac_plus-ng/LICENSE
+COPY containers/tacacs-ldap.py /usr/local/lib/latch/tacacs-ldap.py
+COPY containers/tacacs-start.py /usr/local/bin/tacacs-start
+COPY config/network/tacacs.cfg /etc/latch/tacacs.cfg
+HEALTHCHECK --interval=5s --timeout=4s --retries=20 CMD ["python3", "/usr/local/lib/latch/tacacs-ldap.py", "--health"]
+ENTRYPOINT ["python3", "/usr/local/bin/tacacs-start"]

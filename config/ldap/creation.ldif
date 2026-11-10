@@ -1,0 +1,13 @@
+dn: uid={{.Username}},ou=users,dc=latch,dc=lab
+changetype: add
+objectClass: inetOrgPerson
+uid: {{.Username}}
+cn: {{.Username}}
+sn: {{.Username}}
+userPassword: {{.Password}}
+
+dn: cn=ROLE,ou=groups,dc=latch,dc=lab
+changetype: modify
+add: member
+member: uid={{.Username}},ou=users,dc=latch,dc=lab
+-

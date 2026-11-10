@@ -1,0 +1,294 @@
+name: latch-poc
+services:
+  warpgate:
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.warpgate
+    init: true
+    cap_add: [NET_ADMIN]
+    environment:
+      LATCH_DEVICE_ROUTE: 10.1.4.0/24
+      LATCH_DEVICE_NEXT_HOP: 10.1.3.253
+    extra_hosts:
+      freertr: 10.1.4.20
+    sysctls:
+      net.ipv4.ip_forward: '0'
+    depends_on:
+      openbao:
+        condition: service_healthy
+    networks:
+      control:
+        ipv4_address: 10.1.1.2
+      management:
+        ipv4_address: 10.1.3.10
+      provider:
+        ipv4_address: 100.64.10.10
+    ports:
+      - "127.0.0.1:${LAB_API_PORT:-9200}:8888"
+      - "127.0.0.1:${LAB_WORKER_PORT:-9202}:2222"
+    volumes:
+      - ./.state/warpgate:/config
+      - warpgate:/data
+    healthcheck:
+      test: [CMD, curl, --insecure, --fail, --silent, 'https://127.0.0.1:8888/@warpgate/admin']
+      interval: 5s
+      timeout: 3s
+      retries: 30
+  openbao:
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.openbao
+    init: true
+    cap_add: [IPC_LOCK]
+    networks: [management]
+    ports:
+      - "127.0.0.1:${LAB_BAO_PORT:-8200}:8200"
+    volumes:
+      - openbao:/opt/latch/bao
+    healthcheck:
+      test: [CMD, curl, -fsS, 'http://127.0.0.1:8200/v1/sys/health']
+      interval: 5s
+      timeout: 3s
+      retries: 30
+  latch-api:
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.latch-api
+    init: true
+    environment:
+      OPENBAO_ADDR: http://openbao:8200
+    depends_on:
+      openbao:
+        condition: service_healthy
+    networks: [management]
+    ports:
+      - "127.0.0.1:8300:8300"
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8300/health/ready', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+  server-api:
+    profiles: [servers]
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.server-api
+    init: true
+    read_only: true
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    cap_add: [CHOWN, DAC_OVERRIDE, SETUID, SETGID]
+    tmpfs: [/run, /tmp]
+    networks: [management]
+    ports:
+      - "127.0.0.1:8320:8320"
+    depends_on:
+      warpgate:
+        condition: service_healthy
+    volumes:
+      - vm-grants:/data
+      - ./.state/vm/api-token:/secrets/api-token:ro
+      - ./.state/vm/openstack.json:/secrets/openstack.json:ro
+      - ./.state/vm/inventory.json:/config/inventory.json:ro
+      - ./.state/warpgate/admin-password:/gateway/admin-password:ro
+      - ./.state/warpgate/tls.certificate.pem:/gateway/tls.certificate.pem:ro
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8320/health/live', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  provider-probe:
+    profiles: [diagnostics]
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.warpgate
+    entrypoint: [nc]
+    networks:
+      provider:
+        ipv4_address: 100.64.10.2
+  openldap:
+    profiles: [device]
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.ldap
+    init: true
+    networks: [management]
+    volumes:
+      - device-ldap:/var/lib/ldap
+      - device-ldap-tls:/etc/latch-tls
+      - device-ldap-ca:/etc/latch-ca
+      - ./.state/device/ldap-admin-password:/run/device-secrets/ldap-admin-password:ro
+      - ./.state/device/ldap-openbao-password:/run/device-secrets/ldap-openbao-password:ro
+      - ./.state/device/ldap-reader-password:/run/device-secrets/ldap-reader-password:ro
+    healthcheck:
+      test: [CMD-SHELL, 'LDAPTLS_CACERT=/etc/latch-tls/ca.pem ldapwhoami -x -H ldaps://openldap:636 -D "cn=reader,ou=services,dc=latch,dc=lab" -y /run/device-secrets/ldap-reader-password >/dev/null']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  ldap-openbao:
+    profiles: [device]
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.openbao-ldap
+    init: true
+    cap_add: [IPC_LOCK]
+    networks: [management]
+    depends_on:
+      openldap:
+        condition: service_healthy
+    volumes:
+      - ldap-openbao:/opt/latch/bao
+      - device-ldap-ca:/etc/latch-tls:ro
+      - ./.state/device/ldap-openbao-password:/run/device-secrets/ldap-openbao-password:ro
+      - ./.state/device/ldap-reader-password:/run/device-secrets/ldap-reader-password:ro
+      - ./.state/device/device-bao-token:/run/device-secrets/device-bao-token:ro
+    healthcheck:
+      test: [CMD-SHELL, 'test -f /opt/latch/bao/ldap-ready && curl -fsS http://127.0.0.1:8200/v1/sys/health >/dev/null']
+      interval: 5s
+      timeout: 3s
+      retries: 30
+  device-api:
+    profiles: [device]
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.device-api
+    init: true
+    read_only: true
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    cap_add: [CHOWN, DAC_OVERRIDE, SETUID, SETGID]
+    tmpfs: [/run, /tmp]
+    networks: [management]
+    depends_on:
+      ldap-openbao:
+        condition: service_healthy
+      warpgate:
+        condition: service_healthy
+    volumes:
+      - device-grants:/data
+      - ./.state/device/api-token:/secrets/api-token:ro
+      - ./.state/device/device-bao-token:/secrets/device-bao-token:ro
+      - ./.state/device/inventory.json:/config/inventory.json:ro
+      - ./.state/warpgate/admin-password:/gateway/admin-password:ro
+      - ./.state/warpgate/tls.certificate.pem:/gateway/tls.certificate.pem:ro
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8310/health/live', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  tacacs:
+    profiles: [network]
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.tacacs
+    init: true
+    cap_add: [NET_ADMIN]
+    networks:
+      management:
+        ipv4_address: 10.1.3.21
+    depends_on:
+      openldap:
+        condition: service_healthy
+    environment:
+      LATCH_FREERTR_ADDRESS: 10.1.4.20
+      LATCH_DEVICE_NEXT_HOP: 10.1.3.253
+    volumes:
+      - device-ldap-ca:/etc/latch-tls:ro
+      - ./.state/device/ldap-reader-password:/run/device-secrets/ldap-reader-password:ro
+      - ./.state/device/tacacs-secret:/run/network-secrets/tacacs-secret:ro
+  freertr:
+    profiles: [network]
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.freertr
+    init: true
+    cap_add: [NET_ADMIN]
+    environment:
+      TACACS_HOST: 10.1.3.21
+      LATCH_MANAGEMENT_NEXT_HOP: 10.1.4.1
+    networks:
+      device_management:
+        ipv4_address: 10.1.4.20
+    depends_on:
+      device-router:
+        condition: service_healthy
+      tacacs:
+        condition: service_healthy
+    volumes:
+      - network-freertr:/var/lib/freertr
+      - ./.state/device/tacacs-secret:/run/network-secrets/tacacs-secret:ro
+    healthcheck:
+      test: [CMD, nc, -z, 127.0.0.1, '22']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  device-router:
+    profiles: [network]
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.device-router
+    init: true
+    read_only: true
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    cap_add: [NET_ADMIN]
+    sysctls:
+      net.ipv4.ip_forward: '1'
+    networks:
+      management:
+        ipv4_address: 10.1.3.253
+      device_management:
+        ipv4_address: 10.1.4.1
+    healthcheck:
+      test: [CMD-SHELL, 'test "$$(cat /proc/sys/net/ipv4/ip_forward)" = 1 && iptables -C FORWARD -s 10.1.3.10 -d 10.1.4.20 -p tcp --dport 22 -m conntrack --ctstate NEW -j ACCEPT']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+networks:
+  device_management:
+    internal: true
+    ipam:
+      config:
+        - subnet: 10.1.4.0/24
+          gateway: 10.1.4.254
+  management:
+    ipam:
+      config:
+        - subnet: 10.1.3.0/24
+          gateway: 10.1.3.254
+  control:
+    ipam:
+      config:
+        - subnet: 10.1.1.0/24
+          gateway: 10.1.1.254
+  provider:
+    driver_opts:
+      com.docker.network.bridge.name: latch-provider
+    internal: true
+    ipam:
+      config:
+        - subnet: 100.64.10.0/24
+          ip_range: 100.64.10.0/27
+          gateway: 100.64.10.254
+          aux_addresses:
+            openstack-gateway: 100.64.10.1
+volumes:
+  vm-grants: {}
+  warpgate: {}
+  openbao: {}
+  device-ldap:
+    # Reuse persisted data from the previous naming scheme.
+    name: latch-poc_ise-ldap
+  device-ldap-tls:
+    # Reuse persisted data from the previous naming scheme.
+    name: latch-poc_ise-ldap-tls
+  device-ldap-ca:
+    # Reuse persisted data from the previous naming scheme.
+    name: latch-poc_ise-ldap-ca
+  ldap-openbao:
+    # Reuse persisted data from the previous naming scheme.
+    name: latch-poc_ise-openbao
+  device-grants:
+    # Reuse persisted data from the previous naming scheme.
+    name: latch-poc_ise-grants
+  network-freertr: {}

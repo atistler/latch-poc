@@ -1,0 +1,27 @@
+--- a/src/org/freertr/clnt/clntProxy.java
++++ b/src/org/freertr/clnt/clntProxy.java
+@@ -278,7 +278,13 @@
+             switch (cProto) {
+                 case servGeneric.protoTcp:
+                     try {
+-                    Socket sck = new Socket("" + cAddr, cPort);
++                    Socket sck = new Socket();
++                    try {
++                        sck.connect(new java.net.InetSocketAddress("" + cAddr, cPort), 5000);
++                    } catch (Exception e) {
++                        sck.close();
++                        throw e;
++                    }
+                     pipeLine pl = new pipeLine(65536, false);
+                     prtLocTcp.doSession(pl.getSide(), sck);
+                     pip = pl.getSide();
+--- a/src/org/freertr/clnt/clntTacacs.java
++++ b/src/org/freertr/clnt/clntTacacs.java
+@@ -239,6 +239,7 @@
+         if (conn == null) {
+             return new authResult(par, authResult.authServerError, usr, cmd);
+         }
++        conn.setTime(5000);
+         tacTx.pipe = conn;
+         tacTx.act = packTacacs.metNotset;
+         tacTx.priv = 15;

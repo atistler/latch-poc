@@ -1,0 +1,27 @@
+FROM eclipse-temurin:21-jdk-jammy@sha256:4b1a74fbffbe6b4e7b6f0171a472478282fb463790a51edf10e465d578f22b69 AS build
+ARG FREERTR_COMMIT=653030ace15e8dad869d55c26ad9895f676b8c35
+ARG FREERTR_SHA256=f28e97c8fa5da7fc7888a244d317374cb710dcc569539ff7015cf377daa7d3c7
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates patch && rm -rf /var/lib/apt/lists/*
+WORKDIR /build
+COPY containers/freertr-timeouts.patch containers/freertr-authorization.patch /build/
+RUN curl -fLsS "https://codeload.github.com/mc36/freeRtr/tar.gz/${FREERTR_COMMIT}" -o source.tar.gz \
+ && echo "${FREERTR_SHA256}  source.tar.gz" | sha256sum -c - \
+ && tar -xzf source.tar.gz --strip-components=1 \
+ && patch --batch --fuzz=0 -p1 < /build/freertr-timeouts.patch \
+ && patch --batch --fuzz=0 -p1 < /build/freertr-authorization.patch \
+ && cd src && javac @compiler.txt \
+ && jar --create --file /build/freertr.jar --main-class org.freertr.router -C ../binOut .
+
+FROM eclipse-temurin:21-jre-jammy@sha256:1eac8b8fee11ca7d6725a48bc5d41992ed1561504ebae25490d2d062847e8269
+RUN apt-get update && apt-get install -y --no-install-recommends openssh-client netcat-openbsd iproute2 \
+ && rm -rf /var/lib/apt/lists/*
+COPY --from=build /build/freertr.jar /opt/freertr/freertr.jar
+COPY --from=build /build/misc/debian2/copyright /usr/local/share/doc/freertr/copyright
+COPY --from=build /build/src/org/freertr/util/version.java /usr/local/share/doc/freertr/upstream-version.java
+COPY containers/freertr-timeouts.patch containers/freertr-authorization.patch /usr/local/share/doc/freertr/
+COPY containers/freertr.sh /usr/local/bin/freertr
+COPY config/network/freertr-hw.txt /opt/freertr/router-hw.txt
+COPY config/network/freertr-sw.txt /opt/freertr/router-sw.template
+RUN chmod 755 /usr/local/bin/freertr && mkdir -p /var/lib/freertr /run/freertr
+EXPOSE 22
+ENTRYPOINT ["/usr/local/bin/freertr"]

@@ -1,0 +1,281 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1290" viewBox="0 0 1800 1290" role="img" aria-labelledby="title desc">
+<title id="title">Latch — Server access and network architecture</title><desc id="desc">Implemented OpenStack path · Warpgate SSH gateway · OpenBao certificates · Temporary Neutron forwarding</desc>
+<defs><linearGradient id="blueBand" x2="0" y2="1"><stop stop-color="#f4fbff"/><stop offset="1" stop-color="#eaf6ff"/></linearGradient><linearGradient id="purpleBand" x2="0" y2="1"><stop stop-color="#fbf9ff"/><stop offset="1" stop-color="#f0eaff"/></linearGradient><linearGradient id="greenBand" x2="0" y2="1"><stop stop-color="#f3fff9"/><stop offset="1" stop-color="#e8faf1"/></linearGradient>
+<filter id="shadow" x="-10%" y="-15%" width="120%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#102b63" flood-opacity="0.09"/></filter>
+<marker id="blueArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 5L0 10Z" fill="#087ff5"/></marker>
+<marker id="orangeArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 5L0 10Z" fill="#e85527"/></marker>
+<marker id="purpleArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 5L0 10Z" fill="#8039d9"/></marker>
+</defs><rect width="1800" height="100%" fill="white"/>
+<text x="900" y="49" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700" fill="#102b63" text-anchor="middle">
+<tspan x="900" dy="0">Latch — Server access and network architecture</tspan>
+</text>
+<text x="900" y="84" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#455b78" text-anchor="middle">
+<tspan x="900" dy="0">Implemented OpenStack path · Warpgate SSH gateway · OpenBao certificates · Temporary Neutron forwarding</tspan>
+</text>
+<rect x="18" y="112" width="1764" height="245" rx="12" fill="url(#blueBand)" stroke="#90caff" stroke-width="1.4"/>
+<circle cx="53" cy="152" r="19" fill="#102b63"/>
+<text x="53" y="159" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="white" text-anchor="middle">
+<tspan x="53" dy="0">1</tspan>
+</text>
+<text x="84" y="159" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="84" dy="0">Request access</tspan>
+</text>
+<text x="42" y="214" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="42" dy="0">Control plane</tspan>
+<tspan x="42" dy="27"></tspan>
+<tspan x="42" dy="27">Issue a grant separately.</tspan>
+<tspan x="42" dy="27">Connect with its UUID.</tspan>
+<tspan x="42" dy="27">TTL: 1–300 seconds.</tspan>
+</text>
+<rect x="350" y="174" width="300" height="145" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="365" y="190" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(365,190)" fill="white"><circle cx="17" cy="11" r="5"/><path d="M7 28v-5a10 10 0 0 1 20 0v5Z"/></g>
+<text x="412" y="213" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="412" dy="0">Engineer / CLI</tspan>
+</text>
+<text x="368" y="250" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="368" dy="0">./server-grant</tspan>
+<tspan x="368" dy="24">./server-connect --grant UUID</tspan>
+<tspan x="368" dy="24">Laptop private key stays local.</tspan>
+</text>
+<rect x="750" y="160" width="430" height="175" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="765" y="176" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(765,176)" fill="white"><path d="M12 9l-7 8 7 8m10-16l7 8-7 8M20 6l-6 22" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="812" y="199" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="812" dy="0">Latch server API</tspan>
+</text>
+<text x="768" y="236" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="768" dy="0">Authorize trusted server inventory.</tspan>
+<tspan x="768" dy="24">Create per-grant Warpgate admission.</tspan>
+<tspan x="768" dy="24">Persist grant / cleanup state in SQLite.</tspan>
+<tspan x="768" dy="24">Reconcile revoke and expiry.</tspan>
+</text>
+<rect x="1280" y="160" width="470" height="175" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="1295" y="176" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(1295,176)" fill="white"><path d="M17 5v24M5 17h24m-5-5l5 5-5 5M12 10l5-5 5 5M10 12l-5 5 5 5M12 24l5 5 5-5" fill="none" stroke="white" stroke-width="2"/></g>
+<text x="1342" y="199" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1342" dy="0">Nova + Neutron APIs</tspan>
+</text>
+<text x="1298" y="236" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="1298" dy="0">Validate instance, project and port ownership.</tspan>
+<tspan x="1298" dy="24">Ensure restricted floating-IP forwarding.</tspan>
+<tspan x="1298" dy="24">Concurrent grants share one network path.</tspan>
+<tspan x="1298" dy="24">Remove it after the final grant closes.</tspan>
+</text>
+<polyline points="650,230 750,230" fill="none" stroke="#e85527" stroke-width="2.4" marker-end="url(#orangeArrow)" stroke-dasharray="8 6"/>
+<text x="700" y="211" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#e85527" text-anchor="middle">
+<tspan x="700" dy="0">Request</tspan>
+</text>
+<polyline points="1180,230 1280,230" fill="none" stroke="#e85527" stroke-width="2.4" marker-end="url(#orangeArrow)" stroke-dasharray="8 6"/>
+<text x="1230" y="202" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#e85527" text-anchor="middle">
+<tspan x="1230" dy="0">Validate /</tspan>
+<tspan x="1230" dy="22">configure</tspan>
+</text>
+<rect x="18" y="373" width="1764" height="242" rx="12" fill="url(#purpleBand)" stroke="#c3a3f1" stroke-width="1.4"/>
+<circle cx="53" cy="413" r="19" fill="#102b63"/>
+<text x="53" y="420" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="white" text-anchor="middle">
+<tspan x="53" dy="0">2</tspan>
+</text>
+<text x="84" y="420" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="84" dy="0">Bootstrap trust</tspan>
+</text>
+<text x="42" y="475" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="42" dy="0">Provisioning time</tspan>
+<tspan x="42" dy="27"></tspan>
+<tspan x="42" dy="27">Install public CA trust on</tspan>
+<tspan x="42" dy="27">new OpenStack instances.</tspan>
+<tspan x="42" dy="27">CA private key stays in Bao.</tspan>
+</text>
+<rect x="350" y="433" width="290" height="154" rx="12" fill="white" stroke="#8039d9" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="365" y="449" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(365,449)" fill="white"><circle cx="12" cy="12" r="6" fill="none" stroke="white" stroke-width="3"/><path d="M16 16l11 11m-5-5l4-4m-1 7l4-4" fill="none" stroke="white" stroke-width="3"/></g>
+<text x="412" y="472" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="412" dy="0">OpenBao SSH CA</tspan>
+</text>
+<text x="368" y="509" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="368" dy="0">Public CA is exported.</tspan>
+<tspan x="368" dy="24">Private CA key never leaves</tspan>
+<tspan x="368" dy="24">OpenBao.</tspan>
+</text>
+<rect x="720" y="433" width="310" height="154" rx="12" fill="white" stroke="#8039d9" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="735" y="449" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(735,449)" fill="white"><path d="M12 9l-7 8 7 8m10-16l7 8-7 8M20 6l-6 22" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="782" y="472" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="782" dy="0">Latch vendor-data API</tspan>
+</text>
+<text x="738" y="509" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="738" dy="0">Read the public CA.</tspan>
+<tspan x="738" dy="24">Render platform SSH policy.</tspan>
+<tspan x="738" dy="24">Separate from the grant API.</tspan>
+</text>
+<rect x="1110" y="433" width="285" height="154" rx="12" fill="white" stroke="#8039d9" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="1125" y="449" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(1125,449)" fill="white"><path d="M8 6h18v22H8Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 12h12M11 18h12M11 24h7" fill="none" stroke="white" stroke-width="2"/></g>
+<text x="1172" y="472" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1172" dy="0">Nova / config drive</tspan>
+</text>
+<text x="1128" y="509" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="1128" dy="0">Dynamic vendor data</tspan>
+<tspan x="1128" dy="24">→ cloud-init on first boot.</tspan>
+<tspan x="1128" dy="24">Reboot does not refresh it.</tspan>
+</text>
+<rect x="1470" y="433" width="280" height="154" rx="12" fill="white" stroke="#8039d9" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="1485" y="449" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(1485,449)" fill="white"><path d="M17 5L6 9v9c0 5 7 10 11 12 4-2 11-7 11-12V9Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 17l4 4 8-9" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="1532" y="472" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1532" dy="0">Server sshd</tspan>
+</text>
+<text x="1488" y="509" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="1488" dy="0">TrustedUserCAKeys</tspan>
+<tspan x="1488" dy="24">Approved principal: ubuntu</tspan>
+<tspan x="1488" dy="24">No target agent.</tspan>
+</text>
+<polyline points="640,507 720,507" fill="none" stroke="#8039d9" stroke-width="2.4" marker-end="url(#purpleArrow)" stroke-dasharray="4 5"/>
+<text x="680" y="488" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#8039d9" text-anchor="middle">
+<tspan x="680" dy="0">Public CA</tspan>
+</text>
+<polyline points="1030,507 1110,507" fill="none" stroke="#8039d9" stroke-width="2.4" marker-end="url(#purpleArrow)" stroke-dasharray="4 5"/>
+<text x="1070" y="488" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#8039d9" text-anchor="middle">
+<tspan x="1070" dy="0">Config</tspan>
+</text>
+<polyline points="1395,507 1470,507" fill="none" stroke="#8039d9" stroke-width="2.4" marker-end="url(#purpleArrow)" stroke-dasharray="4 5"/>
+<text x="1432" y="488" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#8039d9" text-anchor="middle">
+<tspan x="1432" dy="0">Trust</tspan>
+</text>
+<rect x="18" y="631" width="1764" height="438" rx="12" fill="url(#greenBand)" stroke="#88d6b2" stroke-width="1.4"/>
+<circle cx="53" cy="671" r="19" fill="#102b63"/>
+<text x="53" y="678" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="white" text-anchor="middle">
+<tspan x="53" dy="0">3</tspan>
+</text>
+<text x="84" y="678" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="84" dy="0">Use the grant</tspan>
+</text>
+<text x="42" y="733" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="42" dy="0">Runtime data plane</tspan>
+<tspan x="42" dy="27"></tspan>
+<tspan x="42" dy="27">Warpgate terminates SSH,</tspan>
+<tspan x="42" dy="27">checks the target host key,</tspan>
+<tspan x="42" dy="27">and records the session.</tspan>
+<tspan x="42" dy="27"></tspan>
+<tspan x="42" dy="27">The gateway is outside</tspan>
+<tspan x="42" dy="27">the tenant network.</tspan>
+</text>
+<text x="355" y="684" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" fill="#8039d9" text-anchor="start">
+<tspan x="355" dy="0">OpenBao signs Warpgate’s target public key; Warpgate injects the short-lived ubuntu certificate.</tspan>
+</text>
+<rect x="350" y="725" width="665" height="309" rx="12" fill="#f7fffb" stroke="#6fba9b" stroke-width="1.4" stroke-dasharray="8 5"/>
+<text x="370" y="757" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="370" dy="0">OPENSTACK EXTERNAL / PROVIDER NETWORK</tspan>
+<tspan x="370" dy="25">100.64.10.0/24 · private</tspan>
+</text>
+<rect x="1030" y="725" width="720" height="309" rx="12" fill="#f7fffb" stroke="#6fba9b" stroke-width="1.4" stroke-dasharray="8 5"/>
+<text x="1050" y="757" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1050" dy="0">OPENSTACK NETWORKING / TENANT INFRASTRUCTURE</tspan>
+</text>
+<rect x="1380" y="777" width="355" height="210" rx="12" fill="#ffffff" stroke="#6fba9b" stroke-width="1.4" stroke-dasharray="5 4"/>
+<text x="1400" y="801" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1400" dy="0">TENANT  ·  192.168.20.0/24</tspan>
+</text>
+<rect x="380" y="805" width="300" height="171" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="395" y="821" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(395,821)" fill="white"><path d="M17 5L6 9v9c0 5 7 10 11 12 4-2 11-7 11-12V9Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 17l4 4 8-9" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="442" y="844" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="442" dy="0">Warpgate gateway</tspan>
+</text>
+<text x="398" y="881" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="398" dy="0">Provider IP: 100.64.10.10</tspan>
+<tspan x="398" dy="24">Ingress IP: 10.1.1.2</tspan>
+<tspan x="398" dy="24">Management IP: 10.1.3.10</tspan>
+<tspan x="398" dy="24">No direct tenant route.</tspan>
+</text>
+<rect x="730" y="805" width="270" height="171" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="745" y="821" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(745,821)" fill="white"><path d="M17 5v24M5 17h24m-5-5l5 5-5 5M12 10l5-5 5 5M10 12l-5 5 5 5M12 24l5 5 5-5" fill="none" stroke="white" stroke-width="2"/></g>
+<text x="792" y="844" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="792" dy="0">Floating-IP endpoint</tspan>
+</text>
+<text x="748" y="881" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="748" dy="0">100.64.10.120:22001</tspan>
+<tspan x="748" dy="24">Routable from Warpgate.</tspan>
+<tspan x="748" dy="24">External/provider-facing.</tspan>
+<tspan x="748" dy="24">Logical endpoint, not an agent.</tspan>
+</text>
+<rect x="1050" y="805" width="290" height="171" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="1065" y="821" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(1065,821)" fill="white"><path d="M17 5v24M5 17h24m-5-5l5 5-5 5M12 10l5-5 5 5M10 12l-5 5 5 5M12 24l5 5 5-5" fill="none" stroke="white" stroke-width="2"/></g>
+<text x="1112" y="844" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1112" dy="0">Neutron routing</tspan>
+<tspan x="1112" dy="25">&amp; DNAT</tspan>
+</text>
+<text x="1068" y="906" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="1068" dy="0">L3 agent or OVN</tspan>
+<tspan x="1068" dy="24">Current POC: L3 agent</tspan>
+<tspan x="1068" dy="24">Port forwarding to TCP 22</tspan>
+</text>
+<rect x="1400" y="817" width="320" height="159" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="1415" y="833" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(1415,833)" fill="white"><path d="M8 6h18v22H8Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 12h12M11 18h12M11 24h7" fill="none" stroke="white" stroke-width="2"/></g>
+<text x="1462" y="856" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1462" dy="0">OpenStack VM</tspan>
+</text>
+<text x="1418" y="893" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="1418" dy="0">192.168.20.15:22 · ubuntu</tspan>
+<tspan x="1418" dy="24">SG: 100.64.10.10/32 only</tspan>
+<tspan x="1418" dy="24">Validates the SSH certificate.</tspan>
+<tspan x="1418" dy="24">Source remains gateway .10.</tspan>
+</text>
+<polyline points="680,875 730,875" fill="none" stroke="#087ff5" stroke-width="3" marker-end="url(#blueArrow)"/>
+<text x="705" y="854" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="600" fill="#087ff5" text-anchor="middle">
+<tspan x="705" dy="0">SSH</tspan>
+</text>
+<polyline points="1000,875 1050,875" fill="none" stroke="#087ff5" stroke-width="3" marker-end="url(#blueArrow)"/>
+<polyline points="1340,875 1400,875" fill="none" stroke="#087ff5" stroke-width="3" marker-end="url(#blueArrow)"/>
+<text x="1370" y="854" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="600" fill="#087ff5" text-anchor="middle">
+<tspan x="1370" dy="0">DNAT</tspan>
+</text>
+<text x="380" y="1006" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#102b63" text-anchor="start">
+<tspan x="380" dy="0">User → Warpgate → routable floating IP → Neutron forwarding → tenant SSH. No full VM-port association.</tspan>
+</text>
+<rect x="18" y="1086" width="555" height="124" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="33" y="1102" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(33,1102)" fill="white"><circle cx="17" cy="17" r="11" fill="none" stroke="white" stroke-width="2"/><path d="M17 9v9l6 4" fill="none" stroke="white" stroke-width="2"/></g>
+<text x="80" y="1125" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="80" dy="0">Explicit grant lifecycle</tspan>
+</text>
+<text x="36" y="1162" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="36" dy="0">requested → active → revoking → revoked</tspan>
+<tspan x="36" dy="24">Disconnecting leaves a grant active until revoke / expiry.</tspan>
+</text>
+<rect x="591" y="1086" width="590" height="124" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="606" y="1102" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(606,1102)" fill="white"><path d="M17 5L6 9v9c0 5 7 10 11 12 4-2 11-7 11-12V9Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 17l4 4 8-9" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="653" y="1125" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="653" dy="0">Revoke / expiry closes sessions</tspan>
+</text>
+<text x="609" y="1162" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="609" dy="0">Latch removes admission and closes that grant’s SSH.</tspan>
+<tspan x="609" dy="24">The final grant releases owned Neutron forwarding.</tspan>
+</text>
+<rect x="1199" y="1086" width="583" height="124" rx="12" fill="white" stroke="#e85527" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="1214" y="1102" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(1214,1102)" fill="white"><circle cx="12" cy="12" r="6" fill="none" stroke="white" stroke-width="3"/><path d="M16 16l11 11m-5-5l4-4m-1 7l4-4" fill="none" stroke="white" stroke-width="3"/></g>
+<text x="1261" y="1125" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1261" dy="0">Certificate expiry alone is insufficient</tspan>
+</text>
+<text x="1217" y="1162" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="1217" dy="0">Certificate expiry blocks new authentication.</tspan>
+<tspan x="1217" dy="24">An API outage can delay active-session termination.</tspan>
+</text>
+<polyline points="180,1246 245,1246" fill="none" stroke="#e85527" stroke-width="2.4" marker-end="url(#orangeArrow)" stroke-dasharray="8 6"/>
+<text x="260" y="1251" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#102b63" text-anchor="start">
+<tspan x="260" dy="0">Control / grant lifecycle</tspan>
+</text>
+<polyline points="705,1246 770,1246" fill="none" stroke="#8039d9" stroke-width="2.4" marker-end="url(#purpleArrow)" stroke-dasharray="4 5"/>
+<text x="785" y="1251" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#102b63" text-anchor="start">
+<tspan x="785" dy="0">Trust / credentials / AAA</tspan>
+</text>
+<polyline points="1250,1246 1315,1246" fill="none" stroke="#087ff5" stroke-width="3" marker-end="url(#blueArrow)"/>
+<text x="1330" y="1251" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#102b63" text-anchor="start">
+<tspan x="1330" dy="0">SSH session traffic</tspan>
+</text>
+</svg>

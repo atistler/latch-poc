@@ -1,0 +1,5 @@
+FROM ubuntu:24.04
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends slapd ldap-utils openssl ca-certificates \
+    && rm -rf /var/lib/apt/lists/* /var/lib/ldap/*
+COPY containers/ldap.sh /usr/local/bin/start-ldap
+ENTRYPOINT ["/bin/bash", "/usr/local/bin/start-ldap"]

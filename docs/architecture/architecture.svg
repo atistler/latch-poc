@@ -1,0 +1,248 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1290" viewBox="0 0 1800 1290" role="img" aria-labelledby="title desc">
+<title id="title">Latch — Local infrastructure</title><desc id="desc">Mac laptop → hardware-accelerated ARM64 Linux host → nested OpenStack VM</desc>
+<defs><linearGradient id="blueBand" x2="0" y2="1"><stop stop-color="#f4fbff"/><stop offset="1" stop-color="#eaf6ff"/></linearGradient><linearGradient id="purpleBand" x2="0" y2="1"><stop stop-color="#fbf9ff"/><stop offset="1" stop-color="#f0eaff"/></linearGradient><linearGradient id="greenBand" x2="0" y2="1"><stop stop-color="#f3fff9"/><stop offset="1" stop-color="#e8faf1"/></linearGradient>
+<filter id="shadow" x="-10%" y="-15%" width="120%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#102b63" flood-opacity="0.09"/></filter>
+<marker id="blueArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 5L0 10Z" fill="#087ff5"/></marker>
+<marker id="orangeArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 5L0 10Z" fill="#e85527"/></marker>
+<marker id="purpleArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 5L0 10Z" fill="#8039d9"/></marker>
+</defs><rect width="1800" height="100%" fill="white"/>
+<text x="900" y="49" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700" fill="#102b63" text-anchor="middle">
+<tspan x="900" dy="0">Latch — Local infrastructure</tspan>
+</text>
+<text x="900" y="84" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#455b78" text-anchor="middle">
+<tspan x="900" dy="0">Mac laptop → hardware-accelerated ARM64 Linux host → nested OpenStack VM</tspan>
+</text>
+<rect x="18" y="112" width="1764" height="235" rx="12" fill="url(#blueBand)" stroke="#90caff" stroke-width="1.4"/>
+<circle cx="53" cy="152" r="19" fill="#102b63"/>
+<text x="53" y="159" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="white" text-anchor="middle">
+<tspan x="53" dy="0">1</tspan>
+</text>
+<text x="84" y="159" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="84" dy="0">Laptop entry</tspan>
+</text>
+<text x="42" y="214" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="42" dy="0">Mac / local CLI</tspan>
+<tspan x="42" dy="27"></tspan>
+<tspan x="42" dy="27">Server grants are separate</tspan>
+<tspan x="42" dy="27">from SSH connection.</tspan>
+<tspan x="42" dy="27">Keys remain on the laptop.</tspan>
+</text>
+<rect x="350" y="169" width="330" height="142" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="365" y="185" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(365,185)" fill="white"><circle cx="17" cy="11" r="5"/><path d="M7 28v-5a10 10 0 0 1 20 0v5Z"/></g>
+<text x="412" y="208" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="412" dy="0">Mac laptop</tspan>
+</text>
+<text x="368" y="245" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="368" dy="0">./server-grant</tspan>
+<tspan x="368" dy="24">./server-connect --grant UUID</tspan>
+<tspan x="368" dy="24">OpenSSH + gateway login key.</tspan>
+</text>
+<rect x="800" y="153" width="430" height="174" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="815" y="169" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(815,169)" fill="white"><path d="M8 6h18v22H8Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 12h12M11 18h12M11 24h7" fill="none" stroke="white" stroke-width="2"/></g>
+<text x="862" y="192" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="862" dy="0">Lima · latch-arm64</tspan>
+</text>
+<text x="818" y="229" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="818" dy="0">Ubuntu 24.04 ARM64 · Apple VZ</tspan>
+<tspan x="818" dy="24">6 CPUs · 8 GiB RAM · 80 GiB sparse disk</tspan>
+<tspan x="818" dy="24">SSH loopback 9202 → Warpgate 2222</tspan>
+<tspan x="818" dy="24">UI 9200 → 8888; OpenBao 8200 → 8200.</tspan>
+</text>
+<rect x="1350" y="169" width="400" height="142" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="1365" y="185" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(1365,185)" fill="white"><path d="M17 5L6 9v9c0 5 7 10 11 12 4-2 11-7 11-12V9Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 17l4 4 8-9" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="1412" y="208" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1412" dy="0">Private control channel</tspan>
+</text>
+<text x="1368" y="245" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="1368" dy="0">Grant commands use trusted Lima stdin.</tspan>
+<tspan x="1368" dy="24">Server API: Linux loopback TCP 8320.</tspan>
+<tspan x="1368" dy="24">Vendor-data API: loopback TCP 8300.</tspan>
+</text>
+<polyline points="680,230 800,230" fill="none" stroke="#087ff5" stroke-width="3" marker-end="url(#blueArrow)"/>
+<text x="740" y="209" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#087ff5" text-anchor="middle">
+<tspan x="740" dy="0">Local SSH</tspan>
+</text>
+<polyline points="1230,230 1350,230" fill="none" stroke="#e85527" stroke-width="2.4" marker-end="url(#orangeArrow)" stroke-dasharray="8 6"/>
+<text x="1290" y="209" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#e85527" text-anchor="middle">
+<tspan x="1290" dy="0">CLI request</tspan>
+</text>
+<rect x="18" y="363" width="1764" height="279" rx="12" fill="url(#purpleBand)" stroke="#c3a3f1" stroke-width="1.4"/>
+<circle cx="53" cy="403" r="19" fill="#102b63"/>
+<text x="53" y="410" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="white" text-anchor="middle">
+<tspan x="53" dy="0">2</tspan>
+</text>
+<text x="84" y="410" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="84" dy="0">Host services</tspan>
+</text>
+<text x="42" y="465" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="42" dy="0">Inside the Lima Linux VM</tspan>
+<tspan x="42" dy="27"></tspan>
+<tspan x="42" dy="27">Separate containers keep</tspan>
+<tspan x="42" dy="27">credentials and duties apart.</tspan>
+<tspan x="42" dy="27">OpenStack runs on the host.</tspan>
+</text>
+<rect x="350" y="430" width="310" height="178" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="365" y="446" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(365,446)" fill="white"><path d="M17 5L6 9v9c0 5 7 10 11 12 4-2 11-7 11-12V9Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 17l4 4 8-9" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="412" y="469" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="412" dy="0">Warpgate container</tspan>
+</text>
+<text x="368" y="506" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="368" dy="0">Ingress: 10.1.1.2</tspan>
+<tspan x="368" dy="24">Provider: 100.64.10.10</tspan>
+<tspan x="368" dy="24">Management: 10.1.3.10</tspan>
+<tspan x="368" dy="24">Target key + recording volume.</tspan>
+</text>
+<rect x="700" y="430" width="310" height="178" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="715" y="446" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(715,446)" fill="white"><path d="M12 9l-7 8 7 8m10-16l7 8-7 8M20 6l-6 22" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="762" y="469" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="762" dy="0">Server API container</tspan>
+</text>
+<text x="718" y="506" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="718" dy="0">Management · TCP 8320</tspan>
+<tspan x="718" dy="24">Scoped OpenStack credential</tspan>
+<tspan x="718" dy="24">Durable SQLite grant volume</tspan>
+<tspan x="718" dy="24">No provider network interface.</tspan>
+</text>
+<rect x="1050" y="430" width="310" height="178" rx="12" fill="white" stroke="#8039d9" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="1065" y="446" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(1065,446)" fill="white"><circle cx="12" cy="12" r="6" fill="none" stroke="white" stroke-width="3"/><path d="M16 16l11 11m-5-5l4-4m-1 7l4-4" fill="none" stroke="white" stroke-width="3"/></g>
+<text x="1112" y="469" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1112" dy="0">OpenBao container</tspan>
+</text>
+<text x="1068" y="506" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="1068" dy="0">Management · TCP 8200</tspan>
+<tspan x="1068" dy="24">SSH signer + public CA</tspan>
+<tspan x="1068" dy="24">CA key + Raft state persist.</tspan>
+<tspan x="1068" dy="24">Private CA key stays here.</tspan>
+</text>
+<rect x="1400" y="430" width="350" height="178" rx="12" fill="white" stroke="#8039d9" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="1415" y="446" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(1415,446)" fill="white"><path d="M12 9l-7 8 7 8m10-16l7 8-7 8M20 6l-6 22" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="1462" y="469" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1462" dy="0">Vendor-data container</tspan>
+</text>
+<text x="1418" y="506" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="1418" dy="0">Management · TCP 8300</tspan>
+<tspan x="1418" dy="24">Nova DynamicJSON endpoint</tspan>
+<tspan x="1418" dy="24">Reads the public CA only.</tspan>
+<tspan x="1418" dy="24">No grant / signing credentials.</tspan>
+</text>
+<text x="355" y="402" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" fill="#102b63" text-anchor="start">
+<tspan x="355" dy="0">Gateway ingress: 10.1.1.0/24   ·   Service management: 10.1.3.0/24   ·   Other service IPs are dynamic.</tspan>
+</text>
+<rect x="18" y="658" width="1764" height="411" rx="12" fill="url(#greenBand)" stroke="#88d6b2" stroke-width="1.4"/>
+<circle cx="53" cy="698" r="19" fill="#102b63"/>
+<text x="53" y="705" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="white" text-anchor="middle">
+<tspan x="53" dy="0">3</tspan>
+</text>
+<text x="84" y="705" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="84" dy="0">OpenStack path</tspan>
+</text>
+<text x="42" y="760" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="42" dy="0">Controller + network +</tspan>
+<tspan x="42" dy="27">compute on the Linux host</tspan>
+<tspan x="42" dy="27"></tspan>
+<tspan x="42" dy="27">OVS supplies Layer 2.</tspan>
+<tspan x="42" dy="27">The L3 agent supplies NAT.</tspan>
+<tspan x="42" dy="27">Warpgate is outside tenant.</tspan>
+</text>
+<rect x="350" y="730" width="400" height="153" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="365" y="746" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(365,746)" fill="white"><path d="M8 6h18v22H8Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 12h12M11 18h12M11 24h7" fill="none" stroke="white" stroke-width="2"/></g>
+<text x="412" y="769" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="412" dy="0">Native OpenStack services</tspan>
+</text>
+<text x="368" y="806" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="368" dy="0">Keystone · Glance · Placement · Nova</tspan>
+<tspan x="368" dy="24">Neutron · MySQL · RabbitMQ</tspan>
+<tspan x="368" dy="24">libvirt / QEMU · 172.20.2.15/24</tspan>
+</text>
+<rect x="840" y="730" width="400" height="153" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="855" y="746" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(855,746)" fill="white"><path d="M17 5v24M5 17h24m-5-5l5 5-5 5M12 10l5-5 5 5M10 12l-5 5 5 5M12 24l5 5 5-5" fill="none" stroke="white" stroke-width="2"/></g>
+<text x="902" y="769" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="902" dy="0">Provider L2 / OVS uplink</tspan>
+</text>
+<text x="858" y="806" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="858" dy="0">Docker latch-provider → veth pair</tspan>
+<tspan x="858" dy="24">OVS br-ex → br-int → qrouter qg-*</tspan>
+<tspan x="858" dy="24">br-ex: 100.64.10.1/32</tspan>
+</text>
+<rect x="1330" y="730" width="420" height="153" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="1345" y="746" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(1345,746)" fill="white"><path d="M17 5v24M5 17h24m-5-5l5 5-5 5M12 10l5-5 5 5M10 12l-5 5 5 5M12 24l5 5 5-5" fill="none" stroke="white" stroke-width="2"/></g>
+<text x="1392" y="769" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1392" dy="0">Neutron L3 namespace</tspan>
+</text>
+<text x="1348" y="806" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="1348" dy="0">qrouter: provider qg-* → tenant qr-*</tspan>
+<tspan x="1348" dy="24">100.64.10.120:22001</tspan>
+<tspan x="1348" dy="24">DNAT → 192.168.20.15:22</tspan>
+</text>
+<polyline points="750,801 840,801" fill="none" stroke="#e85527" stroke-width="2.4" marker-end="url(#orangeArrow)" stroke-dasharray="8 6"/>
+<text x="795" y="710" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#e85527" text-anchor="middle">
+<tspan x="795" dy="0">Program</tspan>
+</text>
+<polyline points="1240,801 1330,801" fill="none" stroke="#087ff5" stroke-width="3" marker-end="url(#blueArrow)"/>
+<text x="1285" y="780" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#087ff5" text-anchor="middle">
+<tspan x="1285" dy="0">SSH</tspan>
+</text>
+<rect x="350" y="914" width="1400" height="124" rx="12" fill="#f7fffb" stroke="#6fba9b" stroke-width="1.4" stroke-dasharray="8 5"/>
+<text x="374" y="947" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="374" dy="0">NESTED TENANT VM  ·  192.168.20.15:22</tspan>
+</text>
+<text x="374" y="980" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#102b63" text-anchor="start">
+<tspan x="374" dy="0">Ubuntu ARM64 / UEFI  ·  1 vCPU  ·  1 GiB RAM  ·  8 GB disk  ·  OpenSSH trusts the OpenBao public CA.</tspan>
+</text>
+<text x="374" y="1007" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="374" dy="0">Security group permits SSH only from Warpgate 100.64.10.10/32. No gateway agent runs inside the VM.</tspan>
+</text>
+<polyline points="1540,883 1540,914" fill="none" stroke="#087ff5" stroke-width="3" marker-end="url(#blueArrow)"/>
+<rect x="18" y="1086" width="555" height="124" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="33" y="1102" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(33,1102)" fill="white"><path d="M8 6h18v22H8Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 12h12M11 18h12M11 24h7" fill="none" stroke="white" stroke-width="2"/></g>
+<text x="80" y="1125" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="80" dy="0">Hardware acceleration</tspan>
+</text>
+<text x="36" y="1162" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="36" dy="0">Outer Linux VM uses Apple VZ. Tenant uses KVM</tspan>
+<tspan x="36" dy="24">after a successful probe; otherwise ARM64 QEMU/TCG.</tspan>
+</text>
+<rect x="591" y="1086" width="590" height="124" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="606" y="1102" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(606,1102)" fill="white"><path d="M17 5L6 9v9c0 5 7 10 11 12 4-2 11-7 11-12V9Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 17l4 4 8-9" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="653" y="1125" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="653" dy="0">Network isolation</tspan>
+</text>
+<text x="609" y="1162" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="609" dy="0">Gateway has no default or direct tenant route.</tspan>
+<tspan x="609" dy="24">Provider: 100.64.10.0/24 · tenant: 192.168.20.0/24.</tspan>
+</text>
+<rect x="1199" y="1086" width="583" height="124" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="1214" y="1102" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(1214,1102)" fill="white"><ellipse cx="17" cy="9" rx="11" ry="4"/><path d="M6 9v16c0 6 22 6 22 0V9M6 17c0 6 22 6 22 0" fill="none" stroke="white" stroke-width="2"/></g>
+<text x="1261" y="1125" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1261" dy="0">Persistent state</tspan>
+</text>
+<text x="1217" y="1162" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="1217" dy="0">Gateway host keys + recordings; OpenBao CA / Raft;</tspan>
+<tspan x="1217" dy="24">server grant database. Stop / start retains these.</tspan>
+</text>
+<polyline points="180,1246 245,1246" fill="none" stroke="#e85527" stroke-width="2.4" marker-end="url(#orangeArrow)" stroke-dasharray="8 6"/>
+<text x="260" y="1251" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#102b63" text-anchor="start">
+<tspan x="260" dy="0">Control / grant lifecycle</tspan>
+</text>
+<polyline points="705,1246 770,1246" fill="none" stroke="#8039d9" stroke-width="2.4" marker-end="url(#purpleArrow)" stroke-dasharray="4 5"/>
+<text x="785" y="1251" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#102b63" text-anchor="start">
+<tspan x="785" dy="0">Trust / credentials / AAA</tspan>
+</text>
+<polyline points="1250,1246 1315,1246" fill="none" stroke="#087ff5" stroke-width="3" marker-end="url(#blueArrow)"/>
+<text x="1330" y="1251" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#102b63" text-anchor="start">
+<tspan x="1330" dy="0">SSH session traffic</tspan>
+</text>
+</svg>

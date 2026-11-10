@@ -1,0 +1,2 @@
+! Only the SSH server is bridged from the container's host TCP stack.
+tcp2vrf 22 management 22

@@ -1,0 +1,254 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1290" viewBox="0 0 1800 1290" role="img" aria-labelledby="title desc">
+<title id="title">Latch — Network-device access</title><desc id="desc">Logical routed topology · Warpgate recording · OpenBao LDAP leases · TACACS+ command authorization</desc>
+<defs><linearGradient id="blueBand" x2="0" y2="1"><stop stop-color="#f4fbff"/><stop offset="1" stop-color="#eaf6ff"/></linearGradient><linearGradient id="purpleBand" x2="0" y2="1"><stop stop-color="#fbf9ff"/><stop offset="1" stop-color="#f0eaff"/></linearGradient><linearGradient id="greenBand" x2="0" y2="1"><stop stop-color="#f3fff9"/><stop offset="1" stop-color="#e8faf1"/></linearGradient>
+<filter id="shadow" x="-10%" y="-15%" width="120%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#102b63" flood-opacity="0.09"/></filter>
+<marker id="blueArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 5L0 10Z" fill="#087ff5"/></marker>
+<marker id="orangeArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 5L0 10Z" fill="#e85527"/></marker>
+<marker id="purpleArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 5L0 10Z" fill="#8039d9"/></marker>
+</defs><rect width="1800" height="100%" fill="white"/>
+<text x="900" y="49" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700" fill="#102b63" text-anchor="middle">
+<tspan x="900" dy="0">Latch — Network-device access</tspan>
+</text>
+<text x="900" y="84" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#455b78" text-anchor="middle">
+<tspan x="900" dy="0">Logical routed topology · Warpgate recording · OpenBao LDAP leases · TACACS+ command authorization</tspan>
+</text>
+<rect x="18" y="112" width="1764" height="245" rx="12" fill="url(#blueBand)" stroke="#90caff" stroke-width="1.4"/>
+<circle cx="53" cy="152" r="19" fill="#102b63"/>
+<text x="53" y="159" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="white" text-anchor="middle">
+<tspan x="53" dy="0">1</tspan>
+</text>
+<text x="84" y="159" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="84" dy="0">Grant a role</tspan>
+</text>
+<text x="42" y="214" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="42" dy="0">Control plane</tspan>
+<tspan x="42" dy="27"></tspan>
+<tspan x="42" dy="27">Choose device, role and TTL.</tspan>
+<tspan x="42" dy="27">Inventory permissions</tspan>
+<tspan x="42" dy="27">limit what can be granted.</tspan>
+</text>
+<rect x="350" y="173" width="365" height="145" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="365" y="189" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(365,189)" fill="white"><circle cx="17" cy="11" r="5"/><path d="M7 28v-5a10 10 0 0 1 20 0v5Z"/></g>
+<text x="412" y="212" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="412" dy="0">Engineer / CLI</tspan>
+</text>
+<text x="368" y="249" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="368" dy="0">./lab device-grant --device freertr</tspan>
+<tspan x="368" dy="24">  --role readonly --ttl 300</tspan>
+<tspan x="368" dy="24">./lab device-connect --grant UUID</tspan>
+</text>
+<rect x="830" y="159" width="430" height="175" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="845" y="175" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(845,175)" fill="white"><path d="M12 9l-7 8 7 8m10-16l7 8-7 8M20 6l-6 22" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="892" y="198" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="892" dy="0">Latch device API</tspan>
+</text>
+<text x="848" y="235" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="848" dy="0">Authenticate caller and authorize role.</tspan>
+<tspan x="848" dy="24">Persist grant deadline + cleanup state.</tspan>
+<tspan x="848" dy="24">Configure per-grant Warpgate target.</tspan>
+<tspan x="848" dy="24">Pin router host key; close expired sessions.</tspan>
+</text>
+<rect x="1375" y="173" width="375" height="145" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="1390" y="189" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(1390,189)" fill="white"><path d="M17 5L6 9v9c0 5 7 10 11 12 4-2 11-7 11-12V9Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 17l4 4 8-9" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="1437" y="212" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1437" dy="0">Warpgate admission</tspan>
+</text>
+<text x="1393" y="249" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="1393" dy="0">Gateway login uses the laptop key.</tspan>
+<tspan x="1393" dy="24">Target login uses a temporary password.</tspan>
+<tspan x="1393" dy="24">No target agent is required.</tspan>
+</text>
+<polyline points="715,230 830,230" fill="none" stroke="#e85527" stroke-width="2.4" marker-end="url(#orangeArrow)" stroke-dasharray="8 6"/>
+<text x="772" y="210" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#e85527" text-anchor="middle">
+<tspan x="772" dy="0">Grant</tspan>
+</text>
+<polyline points="1260,230 1375,230" fill="none" stroke="#e85527" stroke-width="2.4" marker-end="url(#orangeArrow)" stroke-dasharray="8 6"/>
+<text x="1317" y="210" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#e85527" text-anchor="middle">
+<tspan x="1317" dy="0">Target / role</tspan>
+</text>
+<rect x="18" y="373" width="1764" height="260" rx="12" fill="url(#purpleBand)" stroke="#c3a3f1" stroke-width="1.4"/>
+<circle cx="53" cy="413" r="19" fill="#102b63"/>
+<text x="53" y="420" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="white" text-anchor="middle">
+<tspan x="53" dy="0">2</tspan>
+</text>
+<text x="84" y="420" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="84" dy="0">Issue credentials</tspan>
+</text>
+<text x="42" y="475" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="42" dy="0">Temporary identity</tspan>
+<tspan x="42" dy="27"></tspan>
+<tspan x="42" dy="27">Separate LDAP OpenBao</tspan>
+<tspan x="42" dy="27">from the server SSH CA.</tspan>
+<tspan x="42" dy="27">Account lease ≤ 5 minutes.</tspan>
+</text>
+<rect x="350" y="443" width="355" height="151" rx="12" fill="white" stroke="#8039d9" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="365" y="459" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(365,459)" fill="white"><circle cx="12" cy="12" r="6" fill="none" stroke="white" stroke-width="3"/><path d="M16 16l11 11m-5-5l4-4m-1 7l4-4" fill="none" stroke="white" stroke-width="3"/></g>
+<text x="412" y="482" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="412" dy="0">LDAP OpenBao</tspan>
+</text>
+<text x="368" y="519" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="368" dy="0">Device API requests a dynamic lease.</tspan>
+<tspan x="368" dy="24">Create / revoke temporary account.</tspan>
+<tspan x="368" dy="24">Scoped credentials stay server-side.</tspan>
+</text>
+<rect x="830" y="443" width="430" height="151" rx="12" fill="white" stroke="#8039d9" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="845" y="459" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(845,459)" fill="white"><ellipse cx="17" cy="9" rx="11" ry="4"/><path d="M6 9v16c0 6 22 6 22 0V9M6 17c0 6 22 6 22 0" fill="none" stroke="white" stroke-width="2"/></g>
+<text x="892" y="482" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="892" dy="0">OpenLDAP</tspan>
+</text>
+<text x="848" y="519" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="848" dy="0">Temporary users + role-group membership.</tspan>
+<tspan x="848" dy="24">LDAPS TCP 636.</tspan>
+<tspan x="848" dy="24">Only managed accounts are deleted.</tspan>
+</text>
+<rect x="1375" y="443" width="375" height="151" rx="12" fill="white" stroke="#8039d9" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="1390" y="459" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(1390,459)" fill="white"><path d="M17 5L6 9v9c0 5 7 10 11 12 4-2 11-7 11-12V9Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 17l4 4 8-9" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="1437" y="482" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1437" dy="0">tac_plus-ng</tspan>
+</text>
+<text x="1393" y="519" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="1393" dy="0">Authenticate via LDAP password bind.</tspan>
+<tspan x="1393" dy="24">Look up role groups.</tspan>
+<tspan x="1393" dy="24">Enforce per-command TACACS+ policy.</tspan>
+</text>
+<polyline points="705,511 830,511" fill="none" stroke="#8039d9" stroke-width="2.4" marker-end="url(#purpleArrow)" stroke-dasharray="4 5"/>
+<text x="767" y="491" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#8039d9" text-anchor="middle">
+<tspan x="767" dy="0">LDAPS</tspan>
+</text>
+<polyline points="1375,511 1260,511" fill="none" stroke="#8039d9" stroke-width="2.4" marker-end="url(#purpleArrow)" stroke-dasharray="4 5"/>
+<text x="1317" y="491" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#8039d9" text-anchor="middle">
+<tspan x="1317" dy="0">LDAP bind</tspan>
+</text>
+<rect x="18" y="649" width="1764" height="420" rx="12" fill="url(#greenBand)" stroke="#88d6b2" stroke-width="1.4"/>
+<circle cx="53" cy="689" r="19" fill="#102b63"/>
+<text x="53" y="696" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="white" text-anchor="middle">
+<tspan x="53" dy="0">3</tspan>
+</text>
+<text x="84" y="696" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="84" dy="0">Use the device</tspan>
+</text>
+<text x="42" y="751" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="42" dy="0">Runtime data plane</tspan>
+<tspan x="42" dy="27"></tspan>
+<tspan x="42" dy="27">Warpgate records SSH.</tspan>
+<tspan x="42" dy="27">The router authenticates</tspan>
+<tspan x="42" dy="27">and authorizes via TACACS+.</tspan>
+<tspan x="42" dy="27">No Neutron forwarding.</tspan>
+</text>
+<rect x="350" y="707" width="390" height="318" rx="12" fill="#f7fffb" stroke="#6fba9b" stroke-width="1.4" stroke-dasharray="8 5"/>
+<text x="374" y="742" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="374" dy="0">GATEWAY INGRESS NETWORK</tspan>
+</text>
+<text x="374" y="767" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#102b63" text-anchor="start">
+<tspan x="374" dy="0">10.1.1.0/24 · management: 10.1.3.10</tspan>
+</text>
+<rect x="820" y="707" width="430" height="318" rx="12" fill="#f7fffb" stroke="#6fba9b" stroke-width="1.4" stroke-dasharray="8 5"/>
+<text x="844" y="742" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="844" dy="0">DEVICE MANAGEMENT NETWORK</tspan>
+</text>
+<text x="844" y="767" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#102b63" text-anchor="start">
+<tspan x="844" dy="0">10.1.4.0/24 · routed subnet</tspan>
+</text>
+<rect x="1330" y="707" width="420" height="318" rx="12" fill="#f7fffb" stroke="#6fba9b" stroke-width="1.4" stroke-dasharray="8 5"/>
+<text x="1354" y="742" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1354" dy="0">SERVICE MANAGEMENT</tspan>
+</text>
+<text x="1354" y="767" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#102b63" text-anchor="start">
+<tspan x="1354" dy="0">10.1.3.0/24 · AAA services live here</tspan>
+</text>
+<rect x="380" y="791" width="320" height="180" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="395" y="807" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(395,807)" fill="white"><path d="M17 5L6 9v9c0 5 7 10 11 12 4-2 11-7 11-12V9Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 17l4 4 8-9" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="442" y="830" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="442" dy="0">Warpgate gateway</tspan>
+</text>
+<text x="398" y="867" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="398" dy="0">Check trusted router host key.</tspan>
+<tspan x="398" dy="24">Inject temporary password.</tspan>
+<tspan x="398" dy="24">Record terminal traffic.</tspan>
+<tspan x="398" dy="24">Management IP: 10.1.3.10.</tspan>
+</text>
+<rect x="865" y="791" width="355" height="180" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="880" y="807" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(880,807)" fill="white"><path d="M17 5v24M5 17h24m-5-5l5 5-5 5M12 10l5-5 5 5M10 12l-5 5 5 5M12 24l5 5 5-5" fill="none" stroke="white" stroke-width="2"/></g>
+<text x="927" y="830" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="927" dy="0">freeRouter</tspan>
+</text>
+<text x="883" y="867" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="883" dy="0">10.1.4.20:22 · routed management</tspan>
+<tspan x="883" dy="24">Separate subnet from Warpgate.</tspan>
+<tspan x="883" dy="24">Command requests go to TACACS+.</tspan>
+<tspan x="883" dy="24">No laptop-published router port.</tspan>
+</text>
+<rect x="1375" y="791" width="345" height="180" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="1390" y="807" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(1390,807)" fill="white"><path d="M17 5L6 9v9c0 5 7 10 11 12 4-2 11-7 11-12V9Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 17l4 4 8-9" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="1437" y="830" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1437" dy="0">tac_plus-ng</tspan>
+</text>
+<text x="1393" y="867" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="1393" dy="0">10.1.3.21:49 · routed from device</tspan>
+<tspan x="1393" dy="24">TACACS+ authentication</tspan>
+<tspan x="1393" dy="24">and command authorization.</tspan>
+<tspan x="1393" dy="24">LDAP role determines policy.</tspan>
+</text>
+<polyline points="700,871 865,871" fill="none" stroke="#087ff5" stroke-width="3" marker-end="url(#blueArrow)"/>
+<text x="782" y="850" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#087ff5" text-anchor="middle">
+<tspan x="782" dy="0">Routed SSH</tspan>
+</text>
+<polyline points="1220,871 1375,871" fill="none" stroke="#8039d9" stroke-width="2.4" marker-end="url(#purpleArrow)" stroke-dasharray="4 5"/>
+<text x="1297" y="850" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#8039d9" text-anchor="middle">
+<tspan x="1297" dy="0">Routed TACACS+</tspan>
+</text>
+<text x="374" y="1003" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#102b63" text-anchor="start">
+<tspan x="374" dy="0">Lab device-router: 10.1.3.253 ↔ 10.1.4.1 · SSH / TACACS+ and replies only · no forwarded NAT · partial live acceptance; see validation guide.</tspan>
+</text>
+<rect x="18" y="1086" width="555" height="124" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="33" y="1102" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(33,1102)" fill="white"><circle cx="17" cy="11" r="5"/><path d="M7 28v-5a10 10 0 0 1 20 0v5Z"/></g>
+<text x="80" y="1125" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="80" dy="0">Roles</tspan>
+</text>
+<text x="36" y="1162" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="36" dy="0">readonly: operational diagnostics and connections.</tspan>
+<tspan x="36" dy="24">operator: configuration + save. admin: all commands.</tspan>
+</text>
+<rect x="591" y="1086" width="590" height="124" rx="12" fill="white" stroke="#102b63" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="606" y="1102" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(606,1102)" fill="white"><circle cx="17" cy="17" r="11" fill="none" stroke="white" stroke-width="2"/><path d="M17 9v9l6 4" fill="none" stroke="white" stroke-width="2"/></g>
+<text x="653" y="1125" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="653" dy="0">Revoke / expiry</tspan>
+</text>
+<text x="609" y="1162" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="609" dy="0">Delete the LDAP lease; remove gateway admission.</tspan>
+<tspan x="609" dy="24">Explicitly close existing grant sessions.</tspan>
+</text>
+<rect x="1199" y="1086" width="583" height="124" rx="12" fill="white" stroke="#e85527" stroke-width="1.4" filter="url(#shadow)"/>
+<rect x="1214" y="1102" width="34" height="34" rx="7" fill="#102b63" stroke="#102b63" stroke-width="1.4"/>
+<g transform="translate(1214,1102)" fill="white"><path d="M17 5L6 9v9c0 5 7 10 11 12 4-2 11-7 11-12V9Z" fill="none" stroke="white" stroke-width="2"/><path d="M11 17l4 4 8-9" fill="none" stroke="white" stroke-width="2.5"/></g>
+<text x="1261" y="1125" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#102b63" text-anchor="start">
+<tspan x="1261" dy="0">Policy limit</tspan>
+</text>
+<text x="1217" y="1162" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#455b78" text-anchor="start">
+<tspan x="1217" dy="0">Operator configuration can change AAA settings.</tspan>
+<tspan x="1217" dy="24">Operator is not a strict security boundary from admin.</tspan>
+</text>
+<polyline points="180,1246 245,1246" fill="none" stroke="#e85527" stroke-width="2.4" marker-end="url(#orangeArrow)" stroke-dasharray="8 6"/>
+<text x="260" y="1251" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#102b63" text-anchor="start">
+<tspan x="260" dy="0">Control / grant lifecycle</tspan>
+</text>
+<polyline points="705,1246 770,1246" fill="none" stroke="#8039d9" stroke-width="2.4" marker-end="url(#purpleArrow)" stroke-dasharray="4 5"/>
+<text x="785" y="1251" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#102b63" text-anchor="start">
+<tspan x="785" dy="0">Trust / credentials / AAA</tspan>
+</text>
+<polyline points="1250,1246 1315,1246" fill="none" stroke="#087ff5" stroke-width="3" marker-end="url(#blueArrow)"/>
+<text x="1330" y="1251" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#102b63" text-anchor="start">
+<tspan x="1330" dy="0">SSH session traffic</tspan>
+</text>
+</svg>

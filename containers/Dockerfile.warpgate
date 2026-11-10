@@ -1,0 +1,20 @@
+FROM ubuntu:24.04
+ARG TARGETARCH
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    ca-certificates curl iproute2 netcat-openbsd libssl3t64 openssh-client python3 \
+    && rm -rf /var/lib/apt/lists/*
+# Pin the published binaries and their release asset SHA-256 digests. Both
+# architectures are built against Ubuntu 22.04 for glibc compatibility upstream.
+RUN set -eu; version=0.30.2; \
+    case "$TARGETARCH" in \
+      arm64) arch=arm64; checksum=1e9754951017241cef9d0a55479a2313d5a1607069c09eb1bd287aa750e22e45 ;; \
+      amd64) arch=x86_64; checksum=93da74e42a3f7c73524b805be8c2271febf096570e804b7dc87a472bfdc7fc52 ;; \
+      *) echo "Unsupported architecture: $TARGETARCH" >&2; exit 1 ;; \
+    esac; \
+    curl --fail --location --retry 3 --output /usr/local/bin/warpgate \
+      "https://github.com/warp-tech/warpgate/releases/download/v$version/warpgate-v$version-$arch-linux"; \
+    echo "$checksum  /usr/local/bin/warpgate" | sha256sum -c -; \
+    chmod 755 /usr/local/bin/warpgate; \
+    warpgate --help >/dev/null
+COPY containers/warpgate.sh /usr/local/bin/start-warpgate
+ENTRYPOINT ["/bin/bash", "/usr/local/bin/start-warpgate"]
