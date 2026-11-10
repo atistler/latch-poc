@@ -1,6 +1,10 @@
 # Latch-coordinated server access
 
-Status: implemented with renamed server API/CLI; full live acceptance passed (`2026-11-04T15:58:51Z`). Server roles below remain a separate proposal.
+> Historical implemented design. The renamed server API/CLI passed full live
+> acceptance at `2026-11-04T15:58:51Z`; this records that implementation stage.
+> Use the [current documentation](../../README.md) and
+> [validation status](../../validation/status.md) for deployed behavior and
+> current coverage. [Server roles](../../design/server-roles.md) remain proposed.
 
 ## Intent
 
@@ -74,7 +78,7 @@ builds an SSH argument list, avoiding shell interpolation and path quoting bugs.
    cleanup and do not return usable admission details.
 
 The baseline preserves the current `ubuntu` certificate principal and VM
-permissions. Enforcing the proposed roles is a separate stage below. Constrain
+permissions. Enforcing the [proposed roles](../../design/server-roles.md) is a separate stage. Constrain
 the signing role and backend path to that login identity. Use bounded
 certificate TTLs; grant admission and session shutdown enforce the grant
 deadline because certificate expiry alone does not terminate an SSH session.
@@ -171,39 +175,8 @@ Verify CLI paths containing spaces. Parse the generated YAML, check operation
 coverage/security and schema drift, and load `/docs`, `/openapi.json` and
 `/openapi.yaml`. Run existing vendor-data and device regression checks.
 
-## VM role proposal (brainstorming; separate from baseline implementation)
+## Proposed follow-up
 
-User selected a **strict diagnostics interface** for readonly, rather than a
-normal Linux shell without sudo. A normal unprivileged shell is not read-only:
-it can write user files and run arbitrary programs.
-
-- `readonly`: dedicated local account, no sudo, root-owned forced-command
-  dispatcher with a small command grammar. Initial ideas: system status,
-  bounded log reads, service status, IP/route inspection, bounded ping and
-  connectivity probes. No arbitrary shell, SFTP/SCP, forwarding, editors,
-  command substitution, output redirection or user-selected executables.
-  Approve readable paths and log sources; diagnostics may expose secrets.
-- `operator`: separate local account; approved root-owned wrappers for actions
-  such as restarting selected application services and deploying validated
-  application configuration. No generic `sudo systemctl`, editors, package
-  manager, Docker membership, arbitrary file writes or changes to SSH, sudo,
-  identity, audit and network policy. Service unit files and executed binaries
-  must be protected from operator writes to prevent indirect root execution.
-- `admin`: separate local account with full sudo, recorded SSH and short-lived
-  admission. Once root is granted, the administrator can change local policy;
-  recording is an audit mechanism, not a guarantee against root tampering.
-
-Represent roles using distinct certificate principals and Linux accounts,
-separate signing policies and trusted server-side role mappings. Never place
-all users into the current privileged `ubuntu` account and assume a certificate
-label restricts their commands. Bootstrap root-owned accounts and policy
-through vendor data; do not add a guest agent. Existing VMs need an explicit
-policy installation or rebuild because config-drive changes are not retroactive.
-
-Proposed role request extension: an explicit `role` field authorized against
-caller + instance + role; no implicit promotion to admin. Grant audit associates
-caller, role, certificate identity where available, target and recording.
-Test cross-role login rejection, shell/transfer escape attempts, privilege
-escalation through operator wrappers, and role-specific allow/deny behavior.
-The exact readonly diagnostics and operator change capabilities still require
-agreement; this document does not claim these roles are implemented.
+The unimplemented [server-role design](../../design/server-roles.md) is kept
+separately from this implemented baseline. Current server grants still use the
+existing `ubuntu` login; they do not enforce readonly/operator/admin roles.

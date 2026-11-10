@@ -2,9 +2,8 @@
 
 Both paths use agentless SSH through Warpgate. Network reachability, gateway
 admission, target authentication and permission to run commands are separate
-checks. This guide describes the implemented local POC; the three-role
-network-device policy passed its complete live acceptance run. See the
-[current validation status](network-device-lab.md#validation-status).
+checks. This guide describes the implemented local POC. See
+[current validation status](../validation/status.md) for tested coverage and outstanding checks.
 
 ## Network-device access
 
@@ -42,7 +41,7 @@ per-user firewall rule. A grant creates identity and authorization objects.
    labels actual configuration-mode requests `service=latch-config`.
    `readonly` permits operational inspection, diagnostics and outbound
    connections; `operator` adds all configuration-mode commands and saves;
-   `admin` permits all commands. See the [full role policy](network-device-lab.md#logical-architecture)
+   `admin` permits all commands. See the [full role policy](network-device-lab.md#command-policy)
    for command families and exclusions. Read-only `show running-config` can reveal
    sensitive configuration; this permission does not redact secrets. Operators
    can change AAA configuration,

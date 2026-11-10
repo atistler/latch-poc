@@ -1,10 +1,10 @@
 # Container images and helpers
 
-All service image definitions live here. The default Lima backend uses
-[`compose.lima.yaml`](../compose.lima.yaml); optional LDAP/device services are
+All service image definitions live under `containers/`. The default Lima backend uses
+[`compose.lima.yaml`](../../compose.lima.yaml); optional LDAP/device services are
 selected through its `device` and `network` profiles. Provisioning enables the
 separate server grant API through the `servers` profile. The retained x86 backend uses
-[`compose.legacy.yaml`](../compose.legacy.yaml).
+[`compose.legacy.yaml`](../../compose.legacy.yaml).
 
 | Image definition | Runtime helpers and responsibility |
 | --- | --- |
@@ -23,8 +23,8 @@ separate server grant API through the `servers` profile. The retained x86 backen
 Core and optional service images use the repository root as their build context,
 so their `COPY` instructions can include `config/`, API packages and helpers.
 The legacy runner uses `containers/openstack/` as its build context.
-Checked-in policy/templates belong in [`config/`](../config/); host installation
-and tenant/network lifecycle scripts belong in [`guest/`](../guest/). Runtime
+Checked-in policy/templates belong in [`config/`](../../config); host installation
+and tenant/network lifecycle scripts belong in [`guest/`](../../guest). Runtime
 secrets and generated configuration belong in ignored `.state/` or service
 volumes, not beside Dockerfiles.
 
@@ -34,9 +34,9 @@ build and retained in the image for inspection. It bounds TCP connection setup
 and TACACS+ command-response inactivity to five seconds each, so a missing
 TACACS+ service rejects commands promptly. It preserves the device's
 fail-closed authorization behavior. Review the patch against the selected source
-revision when updating the pin; see the [network-device build notes](../docs/guides/network-device-lab.md#build-inputs).
+revision when updating the pin; see the [network-device build notes](../guides/network-device-lab.md#build-inputs).
 
-See the [repository reference](../docs/reference/repository-layout.md#verification)
+See the [validation procedures](../validation/README.md)
 for offline and live verification. Building an image alone does not establish
 SSH, LDAP, command authorization or recording acceptance.
 
@@ -44,5 +44,4 @@ SSH, LDAP, command authorization or recording acceptance.
 `service=latch-config` while exec requests retain `service=shell`. The server
 can then grant all actual configuration commands to an operator without
 allowing ambiguous bare exec commands. Because configuration includes AAA,
-operator access is not a strict security boundary from admin. The three-role policy passed complete live acceptance; see the
-[validation guide](../docs/guides/network-device-lab.md#validation-status).
+operator access is not a strict security boundary from admin. See [current validation status](../validation/status.md#network-device-access) for tested coverage.

@@ -1,6 +1,6 @@
 # Architecture diagrams
 
-The [infrastructure overview](../../INFRASTRUCTURE.md) explains the core deployed
+The [infrastructure overview](infrastructure.md) explains the core deployed
 services, routing, certificate flow and vendor-data behavior.
 
 | View | Diagram | Renderer function |
@@ -25,15 +25,14 @@ The optional device view adds freeRouter, tac_plus-ng,
 OpenLDAP, LDAP OpenBao and the device API; it uses temporary passwords rather
 than the VM path's SSH certificates. See the
 [network-device guide](../guides/network-device-lab.md#logical-architecture)
-for policy and current validation status.
+for policy and [current validation status](../validation/status.md#network-device-access) for tested coverage.
 
 The device view shows separate gateway and device management networks. Warpgate
 uses management IP `10.1.3.10` to reach freeRouter at `10.1.4.20:22`; freeRouter
 reaches TACACS+ at `10.1.3.21:49`. The lab device-router joins service management
 at `10.1.3.253` and device management at `10.1.4.1`, without NAT. It permits only
-these SSH/TACACS+ flows and replies. Live routed connectivity, isolation, role,
-recording and explicit-revocation checks passed. The full suite stopped at its
-host-key test baseline; see the [validation status](../guides/network-device-lab.md#validation-status).
+these SSH/TACACS+ flows and replies. See the [validation status](../validation/status.md#network-device-access)
+for acceptance coverage.
 
 ## Network names
 

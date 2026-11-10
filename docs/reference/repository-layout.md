@@ -18,11 +18,16 @@ belong under ignored `.state/`, outside source control.
 | `latch_api/` | Separate vendor-data, server-grant and device-grant applications; platform profiles, OpenStack adapters and durable access cleanup |
 | `latch_common/warpgate.py` | Shared Warpgate admin API client used by CLI and both access services |
 | `latch_common/cloud_init.py` | Shared tenant platform configuration renderer used by DynamicJSON profiles and the guest StaticJSON helper |
-| `containers/` | [Service image/helper map](../../containers/README.md), including the pinned freeRouter source patch |
+| `containers/` | [Service image/helper map](containers.md), including the pinned freeRouter source patch |
 | `containers/openstack/` | Legacy Docker/QEMU OpenStack host image and entrypoint |
 | `config/` | Checked-in DevStack, LDAP, TACACS+, device and inventory templates; runtime secrets are generated separately |
 | `tests/` | Offline contracts/unit tests and explicit real-service harnesses |
-| `docs/architecture/`, `docs/guides/`, `docs/reference/`, `docs/archive/` | Diagrams, operating procedures, stable reference and historical designs/evidence |
+| `docs/` | Task index, quick start, architecture, guides, reference, validation, proposed designs and archive |
+
+All project documentation lives under `docs/`. Start at the
+[documentation index](../README.md), use the [getting-started guide](../getting-started.md)
+to build the lab, or read the [infrastructure overview](../architecture/infrastructure.md)
+for network boundaries and access flows.
 
 Keep orchestration in `scripts/`, host configuration in `guest/`, API behavior
 in `latch_api/`, and behavior shared by installed services and host tools in
@@ -47,34 +52,13 @@ Profiles in `compose.lima.yaml`:
 | Default (no profile) | Core Warpgate, OpenBao and Latch API, managed by `./lab up` |
 | `servers` | Server grant API with isolated OpenStack/Warpgate credentials, enabled by `./lab provision` and resumed by `./lab up` |
 | `device` | OpenLDAP, a separate LDAP-secrets OpenBao and device grant API; enabled by `./lab network-up` |
-| `network` | freeRouter and tac_plus-ng; `./lab network-up` enables both `device` and `network` |
+| `network` | freeRouter, tac_plus-ng and the restricted device-router; `./lab network-up` enables both `device` and `network` |
 | `diagnostics` | Provider probe used by the VM isolation checks |
 
 ## Verification
 
-Run from the repository root in a virtual environment with
-`python3 -m pip install -r latch_api/requirements.txt` installed:
-
-```sh
-python3 -m unittest discover -s tests -v
-bash -n guest/*.sh containers/*.sh containers/openstack/entrypoint.sh tests/certificates-integration.sh
-```
-
-Offline tests check rendering, policy, API contracts, command construction and
-recovery logic. API tests skip when their Python dependencies are absent;
-recovery checks require `jq`. Inspect skips before treating a run as coverage.
-
-| Check | Command or harness | Requires |
-| --- | --- | --- |
-| Real OpenBao/OpenSSH certificate policy | Build `tests/Dockerfile.certificates` and run its image | Docker; the harness enables the otherwise skipped certificate integration test |
-| OpenStack tenant and certificate access | `./lab verify` | Provisioned cloud, tenant VM and core services |
-| Real device SSH, command authorization and lifecycle | `./lab network-verify` | `./lab network-up`; invokes `tests/live_network_device.py` after foundation checks |
-| API-managed server grant lifecycle | `.state/latch-api-venv/bin/python tests/live_server_gateway.py` | Provisioned Lima cloud and server API with no existing grants; creates grants and sessions and restarts/stops the server API to test recovery and expiry |
-| Gateway control-plane contract | `python3 tests/live_device_gateway.py` | Configured Warpgate and local gateway key; creates and removes temporary target/user/role/pin objects without SSH or LDAP traffic |
-
-Live checks can change access state or interrupt optional services. See the
-[command reference](commands.md), [network acceptance checklist](network-open-source-plan.md)
-and current [network-device status](../guides/network-device-lab.md#validation-status).
+See [validation procedures](../validation/README.md) for offline checks and real-service
+harnesses, and [current validation status](../validation/status.md) for recorded coverage.
 
 Server naming preserves the existing private `.state/vm/` credential directory
 and `vm-grants` Docker volume so upgrading does not discard deployed secrets

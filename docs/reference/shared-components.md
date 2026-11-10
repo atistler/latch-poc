@@ -1,6 +1,6 @@
 # Shared Python components
 
-This package contains dependency-free code used by the laptop CLI, guest tools,
+The `latch_common/` package contains dependency-free code used by the laptop CLI, guest tools,
 and Latch API containers. It imports only the Python standard library so that
 host commands and guest provisioning do not require API dependencies.
 

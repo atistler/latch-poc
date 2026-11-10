@@ -1,6 +1,12 @@
 # Server Access Implementation Plan
 
-> **For agentic workers:** Use subagent-driven implementation for independent modules and review their integration before acceptance.
+> Historical implementation plan, completed in November 2026. Task status and
+> acceptance evidence describe that implementation stage. Use the
+> [current documentation](../../README.md) for operating instructions and the
+> [validation status](../../validation/status.md) for current coverage.
+> The original plan instructed agentic workers to use subagent-driven
+> implementation and review integration before acceptance; this is historical
+> workflow context, not an operating instruction.
 
 **Goal:** Latch coordinates expiring server SSH access through the current OpenStack backend, with generated OpenAPI and ReDoc.
 
@@ -8,7 +14,8 @@
 
 **Tech Stack:** Python, FastAPI, SQLite, OpenStack REST APIs, Warpgate, OpenBao, Docker Compose and Lima.
 
-**Spec:** ../specs/2026-11-03-server-access-design.md (baseline authorized; server roles remain proposals).
+**Design:** [implemented server access](../designs/2026-11-03-server-access.md).
+Server roles remain a separate [proposal](../../design/server-roles.md).
 
 ## Global Constraints
 

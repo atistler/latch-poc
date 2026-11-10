@@ -120,7 +120,7 @@ Acceptance: no current tenant is replaced during implementation or validation wi
 - `compose.lima.yaml`, `scripts/lima_backend.py`, and `scripts/lab.py` for container lifecycle and provisioning.
 - `guest/vendor-data-configure.sh`, `guest/provision.sh`, and `guest/target-cloud-init.py` for provider configuration and rendering reuse.
 - API/contract tests and disposable-VM validation tooling.
-- `README.md`, `INFRASTRUCTURE.md`, and `docs/architecture/render_diagrams.py` and its generated SVGs.
+- `docs/getting-started.md`, `docs/architecture/infrastructure.md`, and `docs/architecture/render_diagrams.py` and its generated SVGs.
 
 Implementation is authorized. Existing-tenant replacement and cutover require a separate decision after disposable-VM validation.
 

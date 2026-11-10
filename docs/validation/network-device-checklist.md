@@ -1,12 +1,11 @@
 # Network-device acceptance checklist
 
-This is the acceptance contract for Warpgate → freeRouter SSH → tac_plus-ng →
-OpenLDAP, with temporary LDAP accounts issued by OpenBao. The complete
-three-role live suite passed on 2026-11-03 local time
-(`2026-11-04T01:20:28Z`), with all ten checks passing. Recording replay after a
-real gateway restart passed independently for the prior run. The
-[operating guide](../guides/network-device-lab.md#validation-status) records
-IDs, precise test coverage and current validation status.
+This checklist defines required evidence for Warpgate → freeRouter SSH →
+tac_plus-ng → OpenLDAP, with temporary LDAP accounts issued by OpenBao. It is
+an acceptance contract, not a passing test report. See the [current validation
+status](status.md) for which checks passed on the deployed topology and what
+remains unvalidated. [Historical reports](reports/network-device-history.md)
+retain earlier run details and recording IDs.
 
 Run `./lab network-up`, then `./lab network-verify` against the deployed Lima
 lab. The verifier exercises real services and temporarily interrupts LDAP and

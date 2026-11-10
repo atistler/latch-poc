@@ -28,4 +28,4 @@ Local supplementary checks ran from `.state/warpgate-validation.py`; generated s
 ./lab recordings
 ```
 
-Use [Warpgate administration](https://localhost:9200/@warpgate/admin) to inspect sessions and replay recordings. Sign in as `admin` using the generated password in `.state/lima/warpgate/admin-password`; the local interface uses self-signed TLS. The [architecture guide](../../INFRASTRUCTURE.md) describes network boundaries and [migration design](warpgate-migration.md) documents preserved state and rollback constraints.
+Use [Warpgate administration](https://localhost:9200/@warpgate/admin) to inspect sessions and replay recordings. Sign in as `admin` using the generated password in `.state/lima/warpgate/admin-password`; the local interface uses self-signed TLS. The [architecture guide](../architecture/infrastructure.md) describes network boundaries and [migration design](warpgate-migration.md) documents preserved state and rollback constraints.

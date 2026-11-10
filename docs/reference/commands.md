@@ -20,8 +20,8 @@ behavior. Lima refuses the old guest grant/revoke scripts; use the API-backed CL
 | Create or revoke the default/current server grant | `./lab grant` / `./lab revoke` |
 | Stop services and the Linux host, retaining state | `./lab down` |
 
-The [quick start](../../README.md#build-and-run) explains installation order and
-resource requirements. The [infrastructure overview](../../INFRASTRUCTURE.md)
+The [quick start](../getting-started.md#build-and-run) explains installation order and
+resource requirements. The [infrastructure overview](../architecture/infrastructure.md)
 explains network isolation and the separate host and tenant shells.
 
 ## Server grants
@@ -58,7 +58,7 @@ has converged immediately. The live harness probes gateway-to-server connectivit
 before attempting SSH; temporary convergence delay is separate from grant
 authorization.
 
-A grant authorizes an `ubuntu` shell. Server readonly/operator/admin policies remain
+A grant authorizes an `ubuntu` shell. Server [readonly/operator/admin policies](../design/server-roles.md) remain
 proposed and are not CLI options. The [access workflow](../guides/access-workflows.md#server-access)
 explains host-key checks, certificates and cleanup. HTTP contracts and the
 ReDoc endpoint are in the [API reference](api.md).
@@ -74,7 +74,7 @@ ReDoc endpoint are in the [API reference](api.md).
 | Request unrestricted device administration | `./lab device-grant --device freertr --role admin --ttl 300` |
 | Open an interactive device shell | `./lab device-connect --grant GRANT_UUID` |
 | Revoke a device grant | `./lab device-revoke --grant GRANT_UUID` |
-| Stop only the freeRouter and TACACS+ services | `./lab network-down` |
+| Stop freeRouter, TACACS+ and the device-router | `./lab network-down` |
 
 Use the grant ID returned by `device-grant`. The
 [network-device guide](../guides/network-device-lab.md) defines the command

@@ -1,4 +1,4 @@
-> Historical implementation coordination record. Use the [current acceptance checklist](../../reference/network-open-source-plan.md) and [operating guide](../../guides/network-device-lab.md).
+> Historical implementation coordination record. Use the [current acceptance checklist](../../validation/network-device-checklist.md) and [operating guide](../../guides/network-device-lab.md).
 
 # Open source network-device POC
 
